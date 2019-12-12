@@ -1,10 +1,9 @@
-const express = require('express');
-const auth_controller = require('../controllers/auth_controller');
-const Route = express.Router();
-const JWT = require('jsonwebtoken');
+const express = require('express')
+const auth = require('../controllers/auth')
+const Route = express.Router()
 
 Route
-  .post('/register', auth_controller.register)
-  .post('/login', auth_controller.login)
+  .post('/register', auth.register)
+  .post('/login', auth.login)
 
-module.exports = Route;
+module.exports = Route
