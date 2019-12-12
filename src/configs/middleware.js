@@ -52,7 +52,7 @@ module.exports = {
         next();
       }else{
         res.status(401).json({
-          message: "Only Engineer Allowed"
+          message: "Only Engineer & Admin Allowed to Manage Data"
         });
       }
     });
@@ -65,7 +65,7 @@ module.exports = {
         next();
       }else{
         res.status(401).json({
-          message: "Only Company Allowed"
+          message: "Only Company & Admin Allowed to Manage Data"
         });
       }
     });
