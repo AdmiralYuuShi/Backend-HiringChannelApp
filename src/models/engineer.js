@@ -1,9 +1,11 @@
 const conn = require('../configs/connection')
 
 module.exports = {
-  getEngineer: (offset, row, condition) => {
+
+  getEngineer: (search, page, limit, sort, sortBy) => {
+    const offset = (page - 1) * limit
     return new Promise((resolve, reject) => {
-      const sql = 'SELECT * FROM engineer ' + condition + ' LIMIT ' + offset + ', ' + row
+      const sql = `SELECT * FROM engineer WHERE (name LIKE '%${search}%' OR skill LIKE '%${search}%') ORDER BY ${sortBy} ${sort} LIMIT ${offset}, ${limit}`
       conn.query(sql, (err, result) => {
         if (!err) {
           resolve(result)
@@ -13,11 +15,11 @@ module.exports = {
       })
     })
   },
-
-  getEngineerCount: (condition) => {
-    console.log('count cond     ' + condition)
+  
+  getEngineerCount: (search, page, limit, sort, sortBy) => {
     return new Promise((resolve, reject) => {
-      const sql = 'SELECT COUNT(*) AS data_count FROM engineer ' + condition
+      const offset = (page - 1) * limit
+      const sql = `SELECT COUNT(*) AS data_count FROM engineer WHERE (name LIKE '%${search}%' OR skill LIKE '%${search}%') ORDER BY ${sortBy} ${sort} LIMIT ${offset}, ${limit}`
       conn.query(sql, (err, result) => {
         if (!err) {
           resolve(result)
@@ -54,8 +56,10 @@ module.exports = {
     })
   },
 
-  updateEngineer: (engineerId, name, description, skill, location, dateOfBirth, showcase, dateUpdated) => {
+  updateEngineer: (engineerId, name, description, skill, location, dateOfBirth, showcase, email, phone, dateUpdated) => {
     return new Promise((resolve, reject) => {
+      console.log(dateUpdated)
+      console.log(phone)
       const sql = `UPDATE engineer SET name='${name}', description='${description}', skill='${skill}', location='${location}', date_of_birth='${dateOfBirth}', showcase='${showcase}', date_updated='${dateUpdated}' WHERE engineer_id='${engineerId}'`
       conn.query(sql, (err, result) => {
         if (!err) {
@@ -80,5 +84,4 @@ module.exports = {
     })
   }
 
-  //= =====================
 }

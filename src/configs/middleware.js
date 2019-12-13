@@ -8,6 +8,8 @@ module.exports = {
       const userId = req.headers.userid
       if (!authorization || !email || !userId) {
         return res.status(404).json({
+          status: 404,
+          error: true,
           message: 'Unauthorized'
         })
       }
@@ -31,6 +33,8 @@ module.exports = {
         }
         if (email !== decoded.email || userId !== decoded.userId) {
           return res.status(403).json({
+            status: 403,
+            error: true,
             message: 'Your email or user id not match with token'
           })
         }
@@ -38,6 +42,8 @@ module.exports = {
       })
     } catch (err) {
       return res.status(401).json({
+        status: 401,
+        error: true,
         message: 'Token is Invalid'
       })
     }
