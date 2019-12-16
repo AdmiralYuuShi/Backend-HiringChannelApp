@@ -25,8 +25,8 @@ module.exports = {
     })
   },
 
-  updateCompany: (name, location, description, companyId) => {
-    const sql = `UPDATE company SET name='${name}', location='${location}', description='${description}' WHERE company_id='${companyId}'`
+  updateCompany: (name, location, description, dateUpdated, companyId) => {
+    const sql = `UPDATE company SET name='${name}', location='${location}', description='${description}', date_updated='${dateUpdated}' WHERE company_id='${companyId}'`
     return new Promise((resolve, reject) => {
       conn.query(sql, (err, result) => {
         if (!err) {

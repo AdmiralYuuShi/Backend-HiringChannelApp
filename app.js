@@ -9,14 +9,21 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // Allowing CORS
 app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8080')
+  res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   next()
 })
 
+// app.use(function (req, res, next) {
+//   res.header('Access-Control-Allow-Origin', '*')
+//   res.header('Access-Control-Allow-Headers', '*')
+//   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+//   next()
+// })
+
 app.use('/api/v1', routerNav)
 
-app.listen(process.env.PORT, (err) => {
+app.listen(8080, (err) => {
   if (err) throw err
   console.log('===================================== \n| Server is running . . .           |')
 })

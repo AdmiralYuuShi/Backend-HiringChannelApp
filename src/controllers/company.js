@@ -1,6 +1,8 @@
 const uuid = require('uuid/v4')
 const upload = require('../configs/image_upload')
 const companyModel = require('../models/company')
+const moment = require('moment')
+const date = moment()
 
 module.exports = {
   getCompany: (req, res) => {
@@ -14,11 +16,11 @@ module.exports = {
         })
       })
       .catch(err => {
-        console.log(err)
         res.status(400).json({
           status: 400,
           error: true,
-          message: 'Error get all Company'
+          message: 'Error get all Company',
+          detail: err.message
         })
       })
   },
@@ -27,13 +29,10 @@ module.exports = {
     const companyId = uuid()
     const logo = 'no-Image.png'
     const { name, location, description } = req.body
-    const data = {
-      company_id: companyId,
-      name,
-      logo,
-      location,
-      description
-    }
+    const userId = req.headers.userid
+    const dateCreated = date.format('YYYY-MM-DD h:mm:ss')
+    const dateUpdated = date.format('YYYY-MM-DD h:mm:ss')
+    const data = { company_id: companyId, user_id: userId, name, logo, location, description, date_created: dateCreated, date_updated: dateUpdated }
     companyModel.createCompany(data)
       .then(result => {
         res.status(200).json({
@@ -45,7 +44,6 @@ module.exports = {
         })
       })
       .catch(err => {
-        console.log(err)
         res.status(400).json({
           status: 400,
           error: true,
@@ -57,7 +55,8 @@ module.exports = {
   updateCompany: (req, res) => {
     const { name, location, description } = req.body
     const companyId = req.params.id
-    companyModel.updateCompany(name, location, description, companyId)
+    const dateUpdated = date.format('YYYY-MM-DD h:mm:ss')
+    companyModel.updateCompany(name, location, description, dateUpdated, companyId)
       .then(result => {
         res.status(200).json({
           status: 200,
@@ -67,7 +66,6 @@ module.exports = {
         })
       })
       .catch(err => {
-        console.log(err)
         res.status(400).json({
           status: 400,
           error: true,
@@ -89,7 +87,6 @@ module.exports = {
         })
       })
       .catch(err => {
-        console.log(err)
         res.status(400).json({
           status: 400,
           error: true,
@@ -110,7 +107,6 @@ module.exports = {
         })
       })
       .catch(err => {
-        console.log(err)
         res.status(400).json({
           status: 400,
           error: true,

@@ -2,8 +2,7 @@ const uuid = require('uuid/v4')
 
 module.exports = {
   responsePagination: (res, status, error, message, pageDetail, data) => {
-    
-    let resultPrint = {}
+    const resultPrint = {}
 
     resultPrint.id = uuid()
     resultPrint.status = status || 200

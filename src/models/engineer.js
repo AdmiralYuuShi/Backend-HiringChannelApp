@@ -15,7 +15,7 @@ module.exports = {
       })
     })
   },
-  
+
   getEngineerCount: (search, page, limit, sort, sortBy) => {
     return new Promise((resolve, reject) => {
       const offset = (page - 1) * limit
@@ -56,11 +56,10 @@ module.exports = {
     })
   },
 
-  updateEngineer: (engineerId, name, description, skill, location, dateOfBirth, showcase, email, phone, dateUpdated) => {
+  updateEngineer: (engineerId, name, description, skill, location, dateOfBirth, showcase, expectedSalary, email, phone, dateUpdated) => {
     return new Promise((resolve, reject) => {
-      console.log(dateUpdated)
-      console.log(phone)
-      const sql = `UPDATE engineer SET name='${name}', description='${description}', skill='${skill}', location='${location}', date_of_birth='${dateOfBirth}', showcase='${showcase}', date_updated='${dateUpdated}' WHERE engineer_id='${engineerId}'`
+      const sql = `UPDATE engineer SET name='${name}', description='${description}', skill='${skill}', location='${location}', date_of_birth='${dateOfBirth}', showcase='${showcase}', expected_salary='${expectedSalary}', email='${email}', phone='${phone}', date_updated='${dateUpdated}' WHERE engineer_id='${engineerId}'`
+
       conn.query(sql, (err, result) => {
         if (!err) {
           resolve(result)
