@@ -2,33 +2,59 @@ const conn = require('../configs/connection')
 
 module.exports = {
 
-  getEngineer: (search, page, limit, sort, sortBy) => {
-    const offset = (page - 1) * limit
+  // getEngineer: (search, page, limit, sort, sortBy) => {
+  //   const offset = (page - 1) * limit
+  //   return new Promise((resolve, reject) => {
+  //     const sql = `SELECT * FROM engineer WHERE (name LIKE '%${search}%' OR skill LIKE '%${search}%') ORDER BY ${sortBy} ${sort} LIMIT ${offset}, ${limit}`
+  //     conn.query(sql, (err, result) => {
+  //       if (!err) {
+  //         resolve(result)
+  //       } else {
+  //         reject(new Error(err))
+  //       }
+  //     })
+  //   })
+  // },
+
+  // getEngineerCount: (search, page, limit, sort, sortBy) => {
+  //   return new Promise((resolve, reject) => {
+  //     const offset = (page - 1) * limit
+  //     const sql = `SELECT COUNT(*) AS data_count FROM engineer WHERE (name LIKE '%${search}%' OR skill LIKE '%${search}%') ORDER BY ${sortBy} ${sort} LIMIT ${offset}, ${limit}`
+  //     conn.query(sql, (err, result) => {
+  //       if (!err) {
+  //         resolve(result)
+  //       } else {
+  //         reject(new Error(err))
+  //       }
+  //     })
+  //   })
+  // },
+    getEngineer: (offset, row, condition) => {
     return new Promise((resolve, reject) => {
-      const sql = `SELECT * FROM engineer WHERE (name LIKE '%${search}%' OR skill LIKE '%${search}%') ORDER BY ${sortBy} ${sort} LIMIT ${offset}, ${limit}`
+      sql =  "SELECT * FROM engineer "+condition+" LIMIT "+offset+", "+row;
       conn.query(sql, (err, result) => {
-        if (!err) {
-          resolve(result)
-        } else {
-          reject(new Error(err))
+        if(!err){
+          resolve(result);
+        }else{
+          reject(new Error(err));
         }
-      })
-    })
+      });
+    });
   },
 
-  getEngineerCount: (search, page, limit, sort, sortBy) => {
+  getEngineerCount: (condition) => {
     return new Promise((resolve, reject) => {
-      const offset = (page - 1) * limit
-      const sql = `SELECT COUNT(*) AS data_count FROM engineer WHERE (name LIKE '%${search}%' OR skill LIKE '%${search}%') ORDER BY ${sortBy} ${sort} LIMIT ${offset}, ${limit}`
+      sql = "SELECT COUNT(*) AS data_count FROM engineer "+condition;
       conn.query(sql, (err, result) => {
-        if (!err) {
-          resolve(result)
-        } else {
-          reject(new Error(err))
+        if(!err){
+          resolve(result);
+        }else{
+          reject(new Error(err));
         }
-      })
-    })
+      });
+    });
   },
+
 
   getEngineerById: (engineerId) => {
     return new Promise((resolve, reject) => {

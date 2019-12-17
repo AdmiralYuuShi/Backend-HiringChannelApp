@@ -25,7 +25,14 @@ module.exports = {
           res.status(200).json({
             status: 200,
             error: false,
-            data: data,
+            data: {
+                    user_id: userId, 
+                    email, 
+                    username,
+                    role, 
+                    date_created: dateCreated, 
+                    date_updated: dateUpdated
+                  },
             detail: result,
             message: 'Successfully Register New User'
           })
