@@ -52,10 +52,15 @@ module.exports = {
   getEngineer: (req, res) => {
 
       let condition;
+      let totalAllData;
       let pageCount;
+      let pageNow;
+      let offset;
+      let row;
       const search = req.query.search
       const limit = req.query.limit
       const sortBy = req.query.sortBy
+      const orderBy = req.query.orderBy
 
 
       // Create Condition for Pagination
@@ -74,13 +79,25 @@ module.exports = {
       }else if(sortBy){
         // Sort data by name
         if(sortBy == 'name'){
-          condition = "ORDER BY name";
+          if(orderBy){
+            condition = `ORDER BY name ${orderBy}`;
+          }else{
+            condition = `ORDER BY name ASC`;
+          }
           // Sort data by skill
         }else if(sortBy == 'skill'){
-          condition = "ORDER BY skill";
+          if(orderBy){
+            condition = `ORDER BY skill ${orderBy}`;
+          }else{
+            condition = `ORDER BY skill ASC`;
+          }
           // Sort data by date_updated
         }else if(sortBy == 'date_updated'){
-          condition = "ORDER BY date_updated";
+          if(orderBy){
+            condition = `ORDER BY date_updated ${orderBy}`;
+          }else{
+            condition = `ORDER BY date_updated DESC`;
+          }
         // Wrong sort parameter
         }else{
           console.log("Cant sort data by "+sortBy);
@@ -105,7 +122,37 @@ module.exports = {
     
     engineerModel.getEngineer(offset, row, condition)
     .then(result => {
-      res.status(200).json({
+      if(pageNow <= 1){res.status(200).json({
+        status: 200,
+        error: false,
+        search,
+        sortBy,
+        page: pageNow,
+        allPage: pageCount,
+        dataShowed: result.length,
+        allData: totalAllData,
+        limit : limit || 5,
+        nextLink: `http://localhost:${process.env.PORT}${req.originalUrl.replace('page=' + pageNow, 'page=' + nextPage)}`,
+        data: result,
+        response: "Data loaded"
+      });
+      }else if(pageNow >= pageCount){
+        res.status(200).json({
+        status: 200,
+        error: false,
+        search,
+        sortBy,
+        page: pageNow,
+        allPage: pageCount,
+        dataShowed: result.length,
+        allData: totalAllData,
+        limit : limit || 5,
+        prevLink: `http://localhost:${process.env.PORT}${req.originalUrl.replace('page=' + pageNow, 'page=' + prevPage)}`,
+        data: result,
+        response: "Data loaded"
+      });
+      }else{
+        res.status(200).json({
         status: 200,
         error: false,
         search,
@@ -120,6 +167,7 @@ module.exports = {
         data: result,
         response: "Data loaded"
       });
+      }
     })
     .catch(err => {
       console.log(err);
@@ -236,7 +284,7 @@ module.exports = {
   deleteEngineer: (req, res) => {
     const engineerId = req.params.id
 
-    engineerModel.updateEngineer(engineerId)
+    engineerModel.deleteEngineer(engineerId)
       .then(result => {
         res.status(200).json({
           status: 200,
