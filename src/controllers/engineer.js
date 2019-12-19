@@ -65,11 +65,11 @@ module.exports = {
 
       // Create Condition for Pagination
       if(req.query.page){
-        offset = (req.query.page - 1) * limit || 5;
-        row = limit || 5;
+        offset = limit ? (req.query.page - 1) * limit : 5;
+        row = limit ? limit : 5;
       }else{
         offset = 0;
-        row = limit || 5;
+        row = limit ? limit : 5;
       }
     
       // Search Engineer
@@ -114,7 +114,7 @@ module.exports = {
     engineerModel.getEngineerCount(condition)
     .then(result => {
       totalAllData = result[0].data_count;
-      pageCount = limit ? Math.ceil(result[0].data_count/limit) : Math.ceil(result[0].data_count/5);
+      pageCount = limit ? Math.ceil(result[0].data_count / limit) : Math.ceil(result[0].data_count/5);
     });
     
     const prevPage = pageNow === 1 ? '' : parseInt(pageNow) - 1
