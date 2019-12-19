@@ -7,7 +7,7 @@ Route
   .get('/', engineer.getEngineer)
   .get('/:id', engineer.getEngineerById)
   .post('/', auth.isAuth, auth.isEngineer, engineer.createEngineer)
-  .put('/:id', engineer.updateEngineer)
-  .delete('/:id', engineer.deleteEngineer)
+  .put('/:id', auth.isAuth, auth.isEngineer, engineer.updateEngineer)
+  .delete('/:id', auth.isAuth, auth.isEngineer, engineer.deleteEngineer)
 
 module.exports = Route

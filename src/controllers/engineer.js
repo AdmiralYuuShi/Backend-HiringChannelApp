@@ -2,8 +2,8 @@
 const uuid = require('uuid/v4')
 const engineerModel = require('../models/engineer')
 const miscHelper = require('../helpers/misc')
-const moment = require('moment')
-const date = moment()
+// const moment = require('moment')
+// const date = moment()
 const regex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
 
 module.exports = {
@@ -65,7 +65,7 @@ module.exports = {
 
       // Create Condition for Pagination
       if(req.query.page){
-        offset = (req.query.page - 1) * 5;
+        offset = (req.query.page - 1) * limit || 5;
         row = limit || 5;
       }else{
         offset = 0;
@@ -127,6 +127,7 @@ module.exports = {
         error: false,
         search,
         sortBy,
+        orderBy,
         page: pageNow,
         allPage: pageCount,
         dataShowed: result.length,
@@ -202,11 +203,12 @@ module.exports = {
   },
 
   createEngineer: (req, res) => {
+    const d = new Date()
     const userId = req.headers.userid
     const email = req.headers.email
     const engineerId = uuid()
-    const dateCreated = date.format('YYYY-MM-DD h:mm:ss')
-    const dateUpdated = date.format('YYYY-MM-DD h:mm:ss')
+    const dateCreated = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
+    const dateUpdated = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
     const { name, description, skill, location, dateOfBirth, showcase, expectedSalary, phone } = req.body
     const data = { engineer_id: engineerId, user_id: userId, name, description, skill, location, date_of_birth: dateOfBirth, showcase, expected_salary: expectedSalary, email, phone, date_created: dateCreated, date_updated: dateUpdated }
     const checkEmail = regex.test(email)
@@ -249,8 +251,9 @@ module.exports = {
   },
 
   updateEngineer: (req, res) => {
+    const d = new Date()
     const { name, description, skill, location, email, phone, dateOfBirth, showcase, expectedSalary } = req.body
-    const dateUpdated = date.format('YYYY-MM-DD h:mm:ss')
+    const dateUpdated = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
     const engineerId = req.params.id
     const checkEmail = regex.test(email)
 

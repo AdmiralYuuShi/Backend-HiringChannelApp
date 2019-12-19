@@ -1,8 +1,8 @@
 const uuid = require('uuid/v4')
 const upload = require('../configs/image_upload')
 const companyModel = require('../models/company')
-const moment = require('moment')
-const date = moment()
+// const moment = require('moment')
+// const date = moment()
 
 module.exports = {
   getCompany: (req, res) => {
@@ -26,12 +26,13 @@ module.exports = {
   },
 
   createCompany: (req, res) => {
+    const d = new Date()
     const companyId = uuid()
     const logo = 'no-Image.png'
     const { name, location, description } = req.body
     const userId = req.headers.userid
-    const dateCreated = date.format('YYYY-MM-DD h:mm:ss')
-    const dateUpdated = date.format('YYYY-MM-DD h:mm:ss')
+    const dateCreated = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
+    const dateUpdated = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
     const data = { company_id: companyId, user_id: userId, name, logo, location, description, date_created: dateCreated, date_updated: dateUpdated }
     companyModel.createCompany(data)
       .then(result => {
@@ -53,9 +54,10 @@ module.exports = {
   },
 
   updateCompany: (req, res) => {
+    const d = new Date()
     const { name, location, description } = req.body
     const companyId = req.params.id
-    const dateUpdated = date.format('YYYY-MM-DD h:mm:ss')
+    const dateUpdated = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
     companyModel.updateCompany(name, location, description, dateUpdated, companyId)
       .then(result => {
         res.status(200).json({
