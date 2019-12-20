@@ -81,6 +81,19 @@ module.exports = {
       })
     })
   },
+// ec2-3-89-6-157.compute-1.amazonaws.com
+  changeProfilePicture: (fileName, engineerId) => {
+    const sql = "UPDATE engineer SET profil_picture='" + fileName + "' WHERE engineer_id='" + engineerId + "'"
+    return new Promise((resolve, reject) => {
+      conn.query(sql, (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
 
   updateEngineer: (engineerId, name, description, skill, location, dateOfBirth, showcase, expectedSalary, email, phone, dateUpdated) => {
     return new Promise((resolve, reject) => {

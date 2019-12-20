@@ -2,6 +2,7 @@
 const uuid = require('uuid/v4')
 const engineerModel = require('../models/engineer')
 const miscHelper = require('../helpers/misc')
+const upload = require('../configs/image_upload')
 // const moment = require('moment')
 // const date = moment()
 const regex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
@@ -206,11 +207,12 @@ module.exports = {
     const d = new Date()
     const userId = req.headers.userid
     const email = req.headers.email
+    const profilPicture = 'no-pic.jpg'
     const engineerId = uuid()
     const dateCreated = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
     const dateUpdated = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
     const { name, description, skill, location, dateOfBirth, showcase, expectedSalary, phone } = req.body
-    const data = { engineer_id: engineerId, user_id: userId, name, description, skill, location, date_of_birth: dateOfBirth, showcase, expected_salary: expectedSalary, email, phone, date_created: dateCreated, date_updated: dateUpdated }
+    const data = { engineer_id: engineerId, user_id: userId, name, description, skill, location, date_of_birth: dateOfBirth, showcase, expected_salary: expectedSalary, email, phone, profil_picture: profilPicture, date_created: dateCreated, date_updated: dateUpdated }
     const checkEmail = regex.test(email)
 
     if (checkEmail === true) {
@@ -249,6 +251,27 @@ module.exports = {
       })
     }
   },
+
+  changeProfilPicture: [upload.single('file'), (req, res) => {
+    const fileName = req.file.filename
+    const engineerId = req.params.id
+    engineerModel.changeProfilePicture(fileName, engineerId)
+      .then(result => {
+        res.status(200).json({
+          status: 200,
+          error: false,
+          data: result,
+          message: 'Successfully update data'
+        })
+      })
+      .catch(err => {
+        res.status(400).json({
+          status: 400,
+          error: true,
+          message: 'Error update data'
+        })
+      })
+  }],
 
   updateEngineer: (req, res) => {
     const d = new Date()
