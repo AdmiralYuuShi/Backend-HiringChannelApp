@@ -52,7 +52,6 @@ module.exports = {
 
   getEngineer: (req, res) => {
 
-      let condition;
       let totalAllData;
       let pageCount;
       let pageNow;
@@ -62,7 +61,16 @@ module.exports = {
       const limit = req.query.limit
       const sortBy = req.query.sortBy
       const orderBy = req.query.orderBy
-
+      
+      let condition = search ? `WHERE (name LIKE '%${search}%' OR skill LIKE '%${search}%')` : ''
+      let condition2 = sortBy ? 
+      orderBy ? 
+      'ORDER BY '+sortBy+' '+orderBy :
+      'ORDER BY '+sortBy+' ASC'
+      : 
+      orderBy ?
+      'ORDER BY name '+orderBy :
+      'ORDER BY name ASC'
 
       // Create Condition for Pagination
       if(req.query.page){
@@ -71,39 +79,6 @@ module.exports = {
       }else{
         offset = 0;
         row = limit ? limit : 5;
-      }
-    
-      // Search Engineer
-      if(search){
-        condition = `WHERE (name LIKE '%${search}%' OR skill LIKE '%${search}%')`;
-      // Sorting data
-      }else if(sortBy){
-        // Sort data by name
-        if(sortBy == 'name'){
-          if(orderBy){
-            condition = `ORDER BY name ${orderBy}`;
-          }else{
-            condition = `ORDER BY name ASC`;
-          }
-          // Sort data by skill
-        }else if(sortBy == 'skill'){
-          if(orderBy){
-            condition = `ORDER BY skill ${orderBy}`;
-          }else{
-            condition = `ORDER BY skill ASC`;
-          }
-          // Sort data by date_updated
-        }else if(sortBy == 'date_updated'){
-          if(orderBy){
-            condition = `ORDER BY date_updated ${orderBy}`;
-          }else{
-            condition = `ORDER BY date_updated DESC`;
-          }
-        // Wrong sort parameter
-        }else{
-          console.log("Cant sort data by "+sortBy);
-        }
-        // Show all data 
       }
  
     if(req.query.page){
@@ -121,7 +96,7 @@ module.exports = {
     const prevPage = pageNow === 1 ? '' : parseInt(pageNow) - 1
     const nextPage = pageNow === pageCount ? '' : parseInt(pageNow) + 1
     
-    engineerModel.getEngineer(offset, row, condition)
+    engineerModel.getEngineer(offset, row, condition,  condition2)
     .then(result => {
       if(pageNow <= 1){res.status(200).json({
         status: 200,
@@ -198,6 +173,28 @@ module.exports = {
           status: 400,
           error: true,
           message: 'Error get Engineer by ID',
+          detail: err
+        })
+      })
+  },
+
+  getEngineerByUserId: (req, res) => {
+    const userId = req.params.id
+    engineerModel.getEngineerByUserId(userId)
+      .then(result => {
+        res.status(200).json({
+          status: 200,
+          error: false,
+          dataShowed: result.length,
+          data: result,
+          response: 'Data loaded'
+        })
+      })
+      .catch(err => {
+        res.status(400).json({
+          status: 400,
+          error: true,
+          message: 'Error get Engineer by User ID',
           detail: err
         })
       })

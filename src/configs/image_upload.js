@@ -5,7 +5,7 @@ const date = moment()
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './src/images')
+    cb(null, './public/images')
   },
   filename: (req, file, cb) => {
     cb(null, date.format('YYYY-MM-DD') + '-' + file.originalname)

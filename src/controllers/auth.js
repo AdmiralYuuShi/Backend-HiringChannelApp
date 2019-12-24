@@ -112,5 +112,23 @@ module.exports = {
           message: 'Account not found'
         })
       })
-  }
+  },
+
+  // getUserById : (req, res) => {
+  //   userModel.getUserById(req.body.userId)
+  //   .then(result => {
+  //     res.status(200).json({
+  //       status: 200,
+  //       error: false,
+  //       data: result
+  //     })
+  //   })
+  //   .catch(err => {
+  //     res.status(404).json({
+  //       status: 404,
+  //       error: true,
+  //       message: 'Account not found'
+  //     })
+  //   })
+  // }
 }

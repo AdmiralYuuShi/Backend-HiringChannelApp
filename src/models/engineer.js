@@ -29,9 +29,9 @@ module.exports = {
   //     })
   //   })
   // },
-    getEngineer: (offset, row, condition) => {
+    getEngineer: (offset, row, condition, condition2) => {
     return new Promise((resolve, reject) => {
-      sql =  "SELECT * FROM engineer "+condition+" LIMIT "+offset+", "+row;
+      sql =  "SELECT * FROM engineer "+condition+' '+condition2+" LIMIT "+offset+", "+row;
       conn.query(sql, (err, result) => {
         if(!err){
           resolve(result);
@@ -59,6 +59,19 @@ module.exports = {
   getEngineerById: (engineerId) => {
     return new Promise((resolve, reject) => {
       const sql = "SELECT * FROM engineer WHERE engineer_id='" + engineerId + "'"
+      conn.query(sql, (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
+
+  getEngineerByUserId: (userId) => {
+    return new Promise((resolve, reject) => {
+      const sql = "SELECT * FROM engineer WHERE user_id='" + userId + "'"
       conn.query(sql, (err, result) => {
         if (!err) {
           resolve(result)

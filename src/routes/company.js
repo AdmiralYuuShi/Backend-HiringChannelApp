@@ -4,7 +4,7 @@ const company = require('../controllers/company')
 const auth = require('../configs/middleware')
 
 Route
-  .get('/', auth.isAuth, company.getCompany)
+  .get('/', company.getCompany)
   .post('/', auth.isAuth, auth.isCompany, company.createCompany)
   .put('/:id', auth.isAuth, auth.isCompany, company.updateCompany)
   .put('/changeLogo/:id', auth.isCompany, auth.isAuth, company.changeCompanyLogo)

@@ -6,6 +6,7 @@ require('dotenv').config()
 const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.static('./public'))
 
 // Allowing CORS
 // app.use(function (req, res, next) {
