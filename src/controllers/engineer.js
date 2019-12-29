@@ -35,8 +35,8 @@ module.exports = {
   //         limit,
   //         sort,
   //         sortBy,
-  //         prevLink: `http://localhost:${process.env.PORT}${req.originalUrl.replace('page=' + page, 'page=' + prevPage)}`,
-  //         nextLink: `http://localhost:${process.env.PORT}${req.originalUrl.replace('page=' + page, 'page=' + nextPage)}`
+  //         prevLink: `${process.env.BASE_URL}${req.originalUrl.replace('page=' + page, 'page=' + prevPage)}`,
+  //         nextLink: `${process.env.BASE_URL}${req.originalUrl.replace('page=' + page, 'page=' + nextPage)}`
   //       }
   //       return miscHelper.responsePagination(res, 200, false, 'Success get data', pageDetail, result)
   //     })
@@ -109,7 +109,7 @@ module.exports = {
         dataShowed: result.length,
         allData: totalAllData,
         limit : limit || 5,
-        nextLink: `http://localhost:${process.env.PORT}${req.originalUrl.replace('page=' + pageNow, 'page=' + nextPage)}`,
+        nextLink: `${process.env.BASE_URL}${req.originalUrl.replace('page=' + pageNow, 'page=' + nextPage)}`,
         data: result,
         response: "Data loaded"
       });
@@ -124,7 +124,7 @@ module.exports = {
         dataShowed: result.length,
         allData: totalAllData,
         limit : limit || 5,
-        prevLink: `http://localhost:${process.env.PORT}${req.originalUrl.replace('page=' + pageNow, 'page=' + prevPage)}`,
+        prevLink: `${process.env.BASE_URL}${req.originalUrl.replace('page=' + pageNow, 'page=' + prevPage)}`,
         data: result,
         response: "Data loaded"
       });
@@ -139,8 +139,8 @@ module.exports = {
         dataShowed: result.length,
         allData: totalAllData,
         limit : limit || 5,
-        prevLink: `http://localhost:${process.env.PORT}${req.originalUrl.replace('page=' + pageNow, 'page=' + prevPage)}`,
-        nextLink: `http://localhost:${process.env.PORT}${req.originalUrl.replace('page=' + pageNow, 'page=' + nextPage)}`,
+        prevLink: `${process.env.BASE_URL}${req.originalUrl.replace('page=' + pageNow, 'page=' + prevPage)}`,
+        nextLink: `${process.env.BASE_URL}${req.originalUrl.replace('page=' + pageNow, 'page=' + nextPage)}`,
         data: result,
         response: "Data loaded"
       });
