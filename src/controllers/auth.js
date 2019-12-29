@@ -42,7 +42,7 @@ module.exports = {
           res.status(400).json({
             status: 400,
             error: true,
-            message: 'Error Register New User',
+            message: 'Email is already registered',
             detail: err
           })
         })

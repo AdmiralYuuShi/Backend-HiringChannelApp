@@ -13,6 +13,30 @@ module.exports = {
     })
   },
 
+  getCompanyById: (companyId) => {
+    return new Promise((resolve, reject) => {
+      conn.query('SELECT * FROM company WHERE company_id="'+companyId+'"', (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
+
+  getCompanyByUserId: (userId) => {
+    return new Promise((resolve, reject) => {
+      conn.query('SELECT * FROM company WHERE user_id="'+userId+'"', (err, result) => {
+        if (!err) {
+          resolve(result)
+        } else {
+          reject(new Error(err))
+        }
+      })
+    })
+  },
+
   createCompany: (data) => {
     return new Promise((resolve, reject) => {
       conn.query('INSERT INTO company SET ?', data, (err, result) => {
