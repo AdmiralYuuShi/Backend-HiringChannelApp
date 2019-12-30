@@ -71,6 +71,7 @@ module.exports = {
                 const userId = result.user_id
                 const email = result.email
                 const role = result.role
+                const username = result.username
 
                 const token = JWT.sign({ email, userId, role }, process.env.SECRET, { expiresIn: '1h' })
 
@@ -78,7 +79,7 @@ module.exports = {
                   status: 201,
                   message: 'Success login',
                   token,
-                  user: { email, userId, role },
+                  user: { username, email, userId, role },
                   detail: 'This token only valid for 1 hour'
                 })
               } else {
