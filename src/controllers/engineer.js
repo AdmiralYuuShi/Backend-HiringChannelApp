@@ -283,6 +283,7 @@ module.exports = {
           res.status(200).json({
             status: 200,
             error: false,
+            data: {engineerId, name, description, skill, location, dateOfBirth, showcase, expectedSalary, email, phone, dateUpdated},
             detail: result,
             response: 'Data successfully updated'
           })
